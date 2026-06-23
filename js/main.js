@@ -148,7 +148,7 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---- CV POPUP (preview the PDF in-page, with open-in-new-window + download) ---- */
-const CV_URL="assets/assets/Rayan_Altawijari_CV.pdf";
+const CV_URL="assets/Rayan_Altawijari_CV.pdf";
 let cvEl=null, cvOpen=false, cvLastFocus=null;
 function cvActionsHTML(){
   const open=linkBtn(CV_URL,LANG==='en'?'Open in new window':'فتح في نافذة جديدة','↗',true);
