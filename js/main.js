@@ -387,7 +387,7 @@ function applyTheme(theme){
 }
 (function initTheme(){
   let saved=null;try{saved=localStorage.getItem('theme');}catch(e){}
-  applyTheme(saved||'dark');   /* default is always the night (dark) theme */
+  applyTheme(saved||'light');   /* default is the light theme */
 })();
 document.getElementById('themeBtn').addEventListener('click',()=>{
   const cur=document.documentElement.getAttribute('data-theme');
@@ -409,8 +409,8 @@ function setLang(l){
 }
 document.getElementById('langBtn').addEventListener('click',()=>setLang(LANG==='en'?'ar':'en'));
 
-/* initial render */
-renderProjects();renderBuilds();renderSkills();renderTimeline();
+/* initial render — default to Arabic (setLang swaps text, sets dir=rtl, re-renders) */
+setLang('ar');
 
 /* ---- LOADER ---- */
 (function(){
