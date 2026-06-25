@@ -364,11 +364,42 @@ function tlLabel(it){
 }
 function tlKey(it){if(it.ph)return -Infinity;if(it.current||!it.end)return Infinity;const e=tlParse(it.end);return e.y*100+e.m;}
 function tlStartVal(it){const s=tlParse(it.start);return s?s.y*100+s.m:0;}
+/* logo/building image for an experience entry; falls back to a monogram from the org name */
+function tlInitials(it){
+  if(it.logo)return it.logo;
+  const s=(it.org&&it.org.en)||(it.title&&it.title.en)||'';
+  return s.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function tlMonogram(it){return `<div class="tl-mono">${tlInitials(it)}</div>`;}
+function tlLogo(it,i){
+  if(it.img){const safe=String(it.img).replace(/'/g,"&#39;");
+    return `<div class="tl-logo"><img class="tl-logo-img" src="${safe}" alt="${(it.org&&it.org.en)||''}" loading="lazy" data-ti="${i}"></div>`;}
+  return `<div class="tl-logo">${tlMonogram(it)}</div>`;
+}
+/* building / entrance photo on the trailing side of the text; hidden if the file is missing */
+function tlPhoto(it){
+  if(!it.photo)return '';
+  const safe=String(it.photo).replace(/'/g,"&#39;");
+  return `<div class="tl-photo"><img class="tl-photo-img" src="${safe}" alt="${(it.org&&it.org.en)||''}" loading="lazy"></div>`;
+}
+let tlSorted=[];
 function renderTimeline(){
   const tl=document.getElementById('timeline'); tl.innerHTML="";
-  const sorted=[...timeline].sort((a,b)=>{const ka=tlKey(a),kb=tlKey(b);return ka!==kb?kb-ka:tlStartVal(b)-tlStartVal(a);});
-  sorted.forEach(it=>{const d=document.createElement('div');d.className="tl-item"+(it.ph?" ph":"");
-    d.innerHTML=`<span class="tl-dot"></span><div class="tl-time">${tlLabel(it)}</div><div class="tl-body"><h4>${t(it.title)}</h4><div class="tl-org">${t(it.org)}</div><p>${t(it.desc)}</p></div>`;tl.appendChild(d);});
+  tlSorted=[...timeline].sort((a,b)=>{const ka=tlKey(a),kb=tlKey(b);return ka!==kb?kb-ka:tlStartVal(b)-tlStartVal(a);});
+  tlSorted.forEach((it,i)=>{const d=document.createElement('div');d.className="tl-item"+(it.ph?" ph":"");
+    d.innerHTML=`<span class="tl-dot"></span><div class="tl-time">${tlLabel(it)}</div>`+
+      `<div class="tl-body"><div class="tl-row">${tlLogo(it,i)}`+
+      `<div class="tl-text"><h4>${t(it.title)}</h4><div class="tl-org">${t(it.org)}</div><p>${t(it.desc)}</p></div>`+
+      `${tlPhoto(it)}</div></div>`;
+    tl.appendChild(d);});
+  /* swap a broken/missing logo for the monogram fallback */
+  tl.querySelectorAll('.tl-logo-img').forEach(img=>img.addEventListener('error',()=>{
+    const it=tlSorted[+img.dataset.ti]; if(it&&img.parentElement)img.parentElement.innerHTML=tlMonogram(it);
+  }));
+  /* hide a broken/missing building photo (no fallback for a real photo) */
+  tl.querySelectorAll('.tl-photo-img').forEach(img=>img.addEventListener('error',()=>{
+    const box=img.closest('.tl-photo'); if(box)box.remove();
+  }));
 }
 function renderMarquee(){
   const mq=document.getElementById('marquee'); mq.innerHTML="";

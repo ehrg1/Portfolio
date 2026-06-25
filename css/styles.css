@@ -204,6 +204,16 @@ html[dir="rtl"] .tl-time{letter-spacing:normal}
 .tl-body p{color:hsl(var(--muted));font-size:.92rem;max-width:600px;line-height:1.7}
 .tl-item.ph .tl-body{border:1px dashed hsl(var(--stroke));border-radius:16px;padding:16px 18px;background:hsl(var(--surface)/.25)}
 .tl-item.ph .tl-org{opacity:.8}
+/* experience entry: [logo] [text] [building photo] — wraps on narrow screens */
+.tl-row{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.tl-logo{width:80px;height:80px;border-radius:16px;flex-shrink:0;overflow:hidden;background:var(--art-bg);border:1px solid hsl(var(--stroke));display:grid;place-items:center}
+.tl-logo-img{width:100%;height:100%;object-fit:cover;display:block}
+.tl-mono{font-family:var(--font-display);font-style:italic;font-size:1.9rem;line-height:1;background:linear-gradient(90deg,var(--accent-ink-a),var(--accent-ink-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+html[dir="rtl"] .tl-mono{font-family:var(--font-ar);font-style:normal;font-weight:600}
+.tl-text{flex:1;min-width:200px}
+.tl-photo{flex-shrink:0;width:240px;height:150px;border-radius:16px;overflow:hidden;background:var(--art-bg);border:1px solid hsl(var(--stroke))}
+.tl-photo-img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:640px){.tl-photo{order:3;width:100%;height:190px}}
 
 /* ---------- PROJECTS (2-up) ---------- */
 .proj-grid{display:grid;grid-template-columns:1fr;gap:22px}
@@ -372,8 +382,10 @@ html[dir="rtl"] .sk-cat{letter-spacing:normal}
 @media(prefers-reduced-motion:reduce){.sk-track{animation:none!important}.sk-row{overflow-x:auto}}
 
 /* ---------- CONTACT ---------- */
-.contact{position:relative;overflow:hidden;padding-top:64px;padding-bottom:32px}
-@media(min-width:768px){.contact{padding-top:96px;padding-bottom:48px}}
+.contact{position:relative;overflow:hidden;padding-top:24px;padding-bottom:32px}
+/* soft top fade so the starfield eases in from the page above — mirrors the hero's bottom fade */
+.contact::before{content:"";position:absolute;left:0;right:0;top:0;height:220px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,hsl(var(--bg)),hsl(var(--bg)/.6) 35%,transparent)}
+@media(min-width:768px){.contact{padding-top:40px;padding-bottom:48px}}
 .contact-bg{position:absolute;inset:0;z-index:0}
 .contact-bg .fallback{position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 100%,rgba(78,133,191,.22),transparent 60%),linear-gradient(180deg,#070707,#0a0c0f);background-size:200% 200%;animation:gradient-shift 16s ease infinite}
 .contact-bg video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;transform:translate(-50%,-50%) scaleY(-1);opacity:0;transition:opacity 1s}
@@ -402,19 +414,8 @@ html[dir="rtl"] .sk-cat{letter-spacing:normal}
 .avail .dot{width:9px;height:9px;border-radius:999px;background:#4ade80;box-shadow:0 0 10px #4ade80;animation:pulse-dot 1.8s ease-in-out infinite}
 .copyright{font-size:.78rem;color:rgb(var(--on-media-muted)/.7);text-align:center;margin-top:28px}
 
-/* ---------- CONTACT — LIGHT THEME ---------- */
-/* in light mode the contact section becomes a clean light footer: light wash over a faded video, dark text */
-html[data-theme="light"] .contact-bg .fallback{background:radial-gradient(60% 80% at 50% 100%,rgba(78,133,191,.12),transparent 60%),linear-gradient(180deg,hsl(var(--bg)),hsl(var(--surface)));background-size:200% 200%}
-html[data-theme="light"] .contact-bg video.ready{opacity:.14}
-html[data-theme="light"] .contact-overlay{background:linear-gradient(180deg,hsl(var(--bg)/.86),hsl(var(--bg)/.95))}
-html[data-theme="light"] .marquee-track span{color:hsl(var(--text)/.85)}
-html[data-theme="light"] .contact-cta p{color:hsl(var(--muted))}
-html[data-theme="light"] .contact-cta h2{color:hsl(var(--text))}
-html[data-theme="light"] .mail-btn .inner{background:rgba(255,255,255,.75);border-color:rgba(0,0,0,.12);color:hsl(var(--text))}
-html[data-theme="light"] .mail-btn:hover .inner{border-color:transparent}
-html[data-theme="light"] .footer-bar{border-top-color:rgba(0,0,0,.12)}
-html[data-theme="light"] .avail{color:hsl(var(--muted))}
-html[data-theme="light"] .copyright{color:hsl(var(--muted))}
+/* CONTACT keeps the dark cinematic starfield in BOTH themes — same treatment as the hero,
+   so no light-theme overrides here (default dark styling applies in light mode too). */
 
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s cubic-bezier(.25,.1,.25,1),transform 1s cubic-bezier(.25,.1,.25,1)}
 .reveal.in{opacity:1;transform:none}

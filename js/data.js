@@ -139,11 +139,19 @@ const skillGroups=[
      end   : when it ended. OMIT it (or set current:true) for an ongoing entry → shows "Present" and stays on top.
    The date label is generated automatically from start/end. Add `time:{en,ar}` to force a custom label instead.
    ph:true marks the editable placeholder; placeholders always stay at the bottom. */
+/* Timeline images per entry:
+     img   : small LOGO shown beside the text (falls back to a monogram if missing)
+     logo  : optional monogram override (e.g. "QU") used when img is missing
+     photo : building / entrance photo shown on the OTHER side of the text (hidden if missing)
+   Drop files in assets/experience/ and point img/photo at them. */
 const timeline=[
  {ph:true,start:"2021",end:"2026",title:{en:"B.Sc. in Computer Science",ar:"بكالوريوس علوم الحاسب"},org:{en:"Qassim University, sa",ar:"جامعة القصيم, السعودية"},
+  img:"assets/experience/qassim-university.png",logo:"QU",photo:"assets/experience/qassim-entrance.jpg",
   desc:{en:"Earned a Bachelor of Science in Computer Science, maintaining a high academic standing and receiving the Academic Excellence Award for four consecutive years (2023–2026).",ar:"حصلت على درجة بكالوريوس في علوم الحاسب، مع الحفاظ على مستوى أكاديمي مرتفع وتلقي جائزة التفوق الأكاديمي لأربعة أعوام متتالية (2023–2026)."}},
  {ph:true,time:{en:"2025 jun - aug",ar:"2025 يونيو - أغسطس"},title:{en:"Intern",ar:"متدرب"},org:{en:"Upsource by solutions",ar:"Upsource by solutions"},
+  img:"assets/experience/upsource.png",logo:"UP",photo:"assets/experience/upsource-entrance.jpg",
   desc:{en:"A three-month IT Support Specialist internship at Upsource by solutions (an stc Group company). Delivered frontline technical support, resolved hardware and software issues to ensure seamless daily operations.",ar:"تدريب لمدة ثلاثة أشهر كأخصائي دعم تقني في شركة Upsource by Solutions (إحدى شركات مجموعة stc). مهامي تمحورت حول تقديم الدعم التقني المباشر، وحل مشكلات الأجهزة والبرامج لضمان سير العمليات اليومية بسلاسة."}},
  {ph:true,time:{en:"Continuous",ar:"مستمر"},title:{en:"Course & Personal Projects",ar:"مشاريع دراسية وشخصية"},org:{en:"Self-directed",ar:"ذاتية"},
+  img:"assets/experience/projects.png",logo:"&lt;/&gt;",photo:"assets/experience/projects-photo.jpg",
   desc:{en:"Built apps and tools across Python, C++ and Flutter — a smart-glasses prototype, a C++ budget tracker, and file-cleaning utilities.",ar:"بنيت تطبيقات وأدوات بلغات Python و C++ و Flutter — نموذج نظارات ذكية، ومتتبّع ميزانية بـ C++، وأدوات لتنظيف الملفات."}},
 ];
